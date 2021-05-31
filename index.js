@@ -15,11 +15,9 @@ import {
     Platform,
     ViewPropTypes,
     StyleSheet,
-    Image
+    Image,
+    ActivityIndicator,
 } from 'react-native';
-
-import { ProgressBar } from '@react-native-community/progress-bar-android'
-import { ProgressView } from '@react-native-community/progress-view'
 
 let RNFetchBlob;
 try {
@@ -60,7 +58,7 @@ export default class Pdf extends Component {
         spacing: PropTypes.number,
         password: PropTypes.string,
         progressBarColor: PropTypes.string,
-        activityIndicator: PropTypes.any,
+        loaderStyle: PropTypes.object,
         activityIndicatorProps: PropTypes.any,
         enableAntialiasing: PropTypes.bool,
         enableAnnotationRendering: PropTypes.bool,
@@ -412,21 +410,7 @@ export default class Pdf extends Component {
                             (<View
                                 style={styles.progressContainer}
                             >
-                                {this.props.activityIndicator
-                                    ? this.props.activityIndicator
-                                    : Platform.OS === 'android'
-                                        ? <ProgressBar
-                                            progress={this.state.progress}
-                                            indeterminate={false}
-                                            styleAttr="Horizontal"
-                                            style={styles.progressBar}
-                                            {...this.props.activityIndicatorProps}
-                                        />
-                                        : <ProgressView
-                                            progress={this.state.progress}
-                                            style={styles.progressBar}
-                                            {...this.props.activityIndicatorProps}
-                                        />}
+                                <ActivityIndicator {...this.props.loaderStyle}/>
                             </View>):(
                                 Platform.OS === "android" || Platform.OS === "windows"?(
                                         <PdfCustom
